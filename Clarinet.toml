@@ -1,0 +1,10 @@
+[project]
+name = "swag-nft-contract"
+
+[contracts.nft-trait]
+depends_on = []
+path = "contracts/nft-trait.clar"
+
+[contracts.swag-nft]
+depends_on = ["nft-trait"]
+path = "contracts/swag-nft.clar"
