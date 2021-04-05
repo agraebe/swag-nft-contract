@@ -51,7 +51,7 @@
 (define-read-only (get-owner (token-id uint))
   (ok (nft-get-owner? swag-100 token-id)))
 
-;; Gets the owner of the specified token ID.
+;; Gets the last token ID.
 (define-read-only (get-last-token-id)
   (ok (var-get last-id)))
 
