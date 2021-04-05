@@ -36,3 +36,11 @@ balance = 1_000_000
 [accounts.wallet_9]
 mnemonic = "market ocean tortoise venue vivid coach machine category conduct enable insect jump fog file test core book chaos crucial burst version curious prosper fever"
 balance = 1_000_000
+
+[accounts.wallet_10]
+mnemonic = "shove scheme they edge jazz ecology recycle extra update current add alley add virtual drink extra swallow divorce survey capital stone rubber suffer wool"
+balance = 1_000_000
+
+[accounts.wallet_11]
+mnemonic = "smile exhaust find girl chaos sign oval food hammer square desert melody lens eye job raise police orchard merge turtle mass swarm vocal cross"
+balance = 1_000_000
