@@ -32,15 +32,8 @@
   (unwrap! (map-get? err-strings (err code)) "unknown-error"))
 
 ;; Storage
-(define-map tokens-spender
-  uint
-  principal)
-(define-map tokens-count
-  principal
-  uint)
-(define-map accounts-operator
-  (tuple (operator principal) (account principal))
-  (tuple (is-approved bool)))
+(define-map tokens-count principal uint)
+(define-data-var last-id uint u0)
 
 ;; Transfers tokens to a specified principal.
 (define-public (transfer (token-id uint) (sender principal) (recipient principal))
@@ -59,37 +52,36 @@
 
 ;; Gets the owner of the specified token ID.
 (define-read-only (get-last-token-id)
-  (ok u3))
+  (ok (var-get last-id)))
 
 (define-read-only (get-token-uri (token-id uint))
-  (ok (some "ipfs://ipfs/QmPAg1mjxcEQPPtqsLoEcauVedaeMH81WXDPvPx3VC5zUz")))
+  (ok (some "https://docs.blockstack.org")))
 
 (define-read-only (get-meta (token-id uint))
-  (if (is-eq token-id u1)
-    (ok (some {name: "EVERYDAYS: THE FIRST 5000 DAYS", uri: "https://ipfsgateway.makersplace.com/ipfs/QmZ15eQX8FPjfrtdX3QYbrhZxJpbLpvDpsgb2p3VEH8Bqq", mime-type: "image/jpeg"}))
-    (ok none)))
+  (ok (some {name: "Clarity Developer OG", uri: "https://assets.website-files.com/5fcf9ac604d37418aa70a5ab/6040d72dcd78ad8f04db36cf_gradioooo-ps-transcode.webm", mime-type: "video/webm"})))
 
 (define-read-only (get-nft-meta)
-  (ok (some {name: "swag", uri: "https://ipfsgateway.makersplace.com/ipfs/QmZ15eQX8FPjfrtdX3QYbrhZxJpbLpvDpsgb2p3VEH8Bqq", mime-type: "image/jpeg"})))
+  (ok (some {name: "swag", uri: "https://assets.website-files.com/5fcf9ac604d37418aa70a5ab/6040d72dcd78ad8f04db36cf_gradioooo-ps-transcode.webm", mime-type: "video/webm"})))
 
 ;; Internal - Gets the amount of tokens owned by the specified address.
 (define-private (balance-of (account principal))
   (default-to u0 (map-get? tokens-count account)))
 
 ;; Internal - Register token
-(define-private (mint (new-owner principal) (token-id uint))
-    (let ((current-balance (balance-of new-owner)))
-      (match (nft-mint? swag token-id new-owner)
+(define-private (mint (new-owner principal))
+    (let ((current-balance (balance-of new-owner)) (next-id (+ u1 (var-get last-id))))
+      (match (nft-mint? swag next-id new-owner)
         success
           (begin
             (map-set tokens-count
               new-owner
               (+ u1 current-balance))
+            (var-set last-id next-id)
             (ok success))
         error (nft-mint-err error))))
 
 ;; Initialize the contract
 (begin
-  (try! (mint 'ST238B5WSC8B8XETWDXMH7HZC2MJ2RNTYY15YY7SH u1))
-  (try! (mint 'ST1P4WHXG566QVTAGXPFWPSMXKH0HEBY1S3VZ7PCA u2))
-  (try! (mint 'ST2EGN8HCFSKEH0XKKG3FYQRE4RG0NYMD7NFZ8PP5 u3)))
+  (try! (mint 'ST238B5WSC8B8XETWDXMH7HZC2MJ2RNTYY15YY7SH))
+  (try! (mint 'ST1P4WHXG566QVTAGXPFWPSMXKH0HEBY1S3VZ7PCA))
+  (try! (mint 'ST2EGN8HCFSKEH0XKKG3FYQRE4RG0NYMD7NFZ8PP5)))
