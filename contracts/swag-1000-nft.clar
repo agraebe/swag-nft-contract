@@ -1,8 +1,8 @@
-(impl-trait 'ST000000000000000000002AMW42H.nft-trait.nft-trait)
-(define-non-fungible-token swag-100 uint)
+(impl-trait 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.nft-trait.nft-trait)
+(define-non-fungible-token swag-1000 uint)
 
-;; Limited to first 100 users
-(define-constant max-tokens u100)
+;; Limited to first 1000 users
+(define-constant max-tokens u1000)
 
 ;; Error handling
 (define-constant nft-max-reached (err u403)) ;; no more tokens availabale
@@ -33,12 +33,12 @@
 (define-public (transfer (token-id uint) (sender principal) (recipient principal))
   (if (and
         (is-eq tx-sender sender))
-      (match (nft-transfer? swag-100 token-id sender recipient)
+      (match (nft-transfer? swag-1000 token-id sender recipient)
         success (ok success)
         error (nft-transfer-err error))
       nft-not-owned-err))
 
-;; Claim a new swag-100 token.
+;; Claim a new swag-1000-nft token.
 (define-public (claim-swag)
   (if 
     (and 
@@ -49,7 +49,7 @@
 
 ;; Gets the owner of the specified token ID.
 (define-read-only (get-owner (token-id uint))
-  (ok (nft-get-owner? swag-100 token-id)))
+  (ok (nft-get-owner? swag-1000 token-id)))
 
 ;; Gets the last token ID.
 (define-read-only (get-last-token-id)
@@ -71,7 +71,7 @@
 ;; Internal - Register token
 (define-private (mint (new-owner principal))
     (let ((current-balance (balance-of new-owner)) (next-id (+ u1 (var-get last-id))))
-      (match (nft-mint? swag-100 next-id new-owner)
+      (match (nft-mint? swag-1000 next-id new-owner)
         success
           (begin
             (map-set tokens-count

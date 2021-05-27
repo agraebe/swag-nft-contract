@@ -5,6 +5,14 @@ name = "swag-nft-contract"
 depends_on = []
 path = "contracts/nft-trait.clar"
 
-[contracts.swag-nft]
+[contracts.swag-1000-nft]
 depends_on = ["nft-trait"]
-path = "contracts/swag-nft.clar"
+path = "contracts/swag-1000-nft.clar"
+
+[contracts.exclusive-swag-nft]
+depends_on = ["nft-trait"]
+path = "contracts/exclusive-swag-nft.clar"
+
+[contracts.developer-nft]
+depends_on =["exclusive-swag-nft"]
+path = "contracts/developer-nft.clar"
