@@ -9,6 +9,7 @@
 
 ;; Error handling
 (define-constant nft-max-reached (err u403)) ;; no more tokens availabale
+(define-constant nft-claimed (err u400)) ;; nft already claimed
 (define-constant nft-not-owned-err (err u401)) ;; unauthorized
 (define-constant nft-not-found-err (err u404)) ;; not found
 (define-constant nft-not-registered (err u405)) ;; not registered
@@ -48,14 +49,11 @@
 
 ;; Claim a new exlcusive-swag-nft token.
 (define-public (claim-swag)
-  (if 
-    (and 
-      (< (var-get last-id) max-tokens)
-      (is-eq (balance-of tx-sender) u0)
-      ;; TODO: check registration
-      (is-eq (map-get? swag-contract-registrations { registration: tx-sender }) { claimed: true }))
-    (ok (mint tx-sender))
-    (err nft-not-registered)))
+  (begin
+    (asserts! (< (var-get last-id) max-tokens) nft-max-reached)
+    (asserts! (is-eq (balance-of tx-sender) u0) nft-exists-err)
+    (asserts! (is-eq (unwrap! (map-get? swag-contract-registrations { registration: tx-sender }) nft-not-found-err) { claimed: true }) nft-claimed)
+    (mint tx-sender)))
 
 ;; Gets the owner of the specified token ID.
 (define-read-only (get-owner (token-id uint))

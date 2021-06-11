@@ -42,8 +42,7 @@
         success
           (begin
             (var-set last-id next-id)
-            (contract-call? 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.exclusive-swag-nft claim-swag)
-            (ok success))
+            (contract-call? 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.exclusive-swag-nft claim-swag))
         error (err error))))
 
 ;; Internal - Register for exclusive NFT eligiblity
