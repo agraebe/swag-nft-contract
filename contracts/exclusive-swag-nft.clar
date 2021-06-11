@@ -9,12 +9,11 @@
 
 ;; Error handling
 (define-constant nft-max-reached (err u403)) ;; no more tokens availabale
-(define-constant nft-claimed (err u400)) ;; nft already claimed
+(define-constant nft-claimed-err (err u400)) ;; nft already claimed
 (define-constant nft-not-owned-err (err u401)) ;; unauthorized
 (define-constant nft-not-found-err (err u404)) ;; not found
 (define-constant nft-not-registered (err u405)) ;; not registered
 (define-constant sender-equals-recipient-err (err u405)) ;; method not allowed
-(define-constant nft-exists-err (err u409)) ;; conflict
 
 (define-private (nft-transfer-err (code uint))
   (if (is-eq u1 code)
@@ -27,7 +26,7 @@
 
 (define-private (nft-mint-err (code uint))
   (if (is-eq u1 code)
-    nft-exists-err
+    nft-claimed-err
     (err code)))
 
 ;; Storage
@@ -51,8 +50,8 @@
 (define-public (claim-swag)
   (begin
     (asserts! (< (var-get last-id) max-tokens) nft-max-reached)
-    (asserts! (is-eq (balance-of tx-sender) u0) nft-exists-err)
-    (asserts! (is-eq (unwrap! (map-get? swag-contract-registrations { registration: tx-sender }) nft-not-found-err) { claimed: true }) nft-claimed)
+    (asserts! (is-eq (balance-of tx-sender) u0) nft-claimed-err)
+    (asserts! (is-eq (unwrap! (map-get? swag-contract-registrations { registration: tx-sender }) nft-not-found-err) { claimed: false }) nft-claimed-err)
     (mint tx-sender)))
 
 ;; Gets the owner of the specified token ID.

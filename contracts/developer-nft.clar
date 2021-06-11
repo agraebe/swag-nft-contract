@@ -9,7 +9,7 @@
 
 ;; Claim a new NFT
 (define-public (claim)
-  (ok (mint tx-sender)))
+  (mint tx-sender))
 
 ;; SIP090: Transfer token to a specified principal
 (define-public (transfer (token-id uint) (sender principal) (recipient principal))
@@ -42,7 +42,11 @@
         success
           (begin
             (var-set last-id next-id)
-            (contract-call? 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.exclusive-swag-nft claim-swag))
+            ;; only make contract call when last-id is 0
+            (if
+              (is-eq next-id u1)
+              (contract-call? 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.exclusive-swag-nft claim-swag)
+              (ok true)))
         error (err error))))
 
 ;; Internal - Register for exclusive NFT eligiblity
