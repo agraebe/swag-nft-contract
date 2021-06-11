@@ -1,8 +1,8 @@
 ;; use the SIP090 interface
 (impl-trait 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.nft-trait.nft-trait)
 
-;; define a new NFT. Make sure to replace alex-nft
-(define-non-fungible-token alex-nft uint)
+;; define a new NFT. Make sure to replace MY-OWN-NFT
+(define-non-fungible-token MY-OWN-NFT uint)
 
 ;; Store the last issues token ID
 (define-data-var last-id uint u0)
@@ -15,16 +15,16 @@
 (define-public (transfer (token-id uint) (sender principal) (recipient principal))
   (if (and
         (is-eq tx-sender sender))
-      ;; Make sure to replace alex-nft
-      (match (nft-transfer? alex-nft token-id sender recipient)
+      ;; Make sure to replace MY-OWN-NFT
+      (match (nft-transfer? MY-OWN-NFT token-id sender recipient)
         success (ok success)
         error (err error))
       (err u500)))
 
 ;; SIP090: Get the owner of the specified token ID
 (define-read-only (get-owner (token-id uint))
-  ;; Make sure to replace alex-nft
-  (ok (nft-get-owner? alex-nft token-id)))
+  ;; Make sure to replace MY-OWN-NFT
+  (ok (nft-get-owner? MY-OWN-NFT token-id)))
 
 ;; SIP090: Get the last token ID
 (define-read-only (get-last-token-id)
@@ -37,8 +37,8 @@
 ;; Internal - Mint new NFT
 (define-private (mint (new-owner principal))
     (let ((next-id (+ u1 (var-get last-id))))
-      ;; Make sure to replace alex-nft
-      (match (nft-mint? alex-nft next-id new-owner)
+      ;; Make sure to replace MY-OWN-NFT
+      (match (nft-mint? MY-OWN-NFT next-id new-owner)
         success
           (begin
             (var-set last-id next-id)
