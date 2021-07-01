@@ -63,13 +63,13 @@
   (ok (var-get last-id)))
 
 (define-read-only (get-token-uri (token-id uint))
-  (ok (some "https://docs.blockstack.org")))
+  (ok (some "https://docs.stacks.co/")))
 
 (define-read-only (get-meta (token-id uint))
-  (ok (some {name: "Clarity Developer OG", uri: "https://assets.website-files.com/5fcf9ac604d37418aa70a5ab/6040d72dcd78ad8f04db36cf_gradioooo-ps-transcode.webm", mime-type: "video/webm"})))
+  (ok (some {name: "Clarity NFT OG", uri: "https://bafybeiaot5ym7z55hufdqvixp7hyuw54hur4xgkk45ps37wv2ibz2ijdby.ipfs.dweb.link/", mime-type: "video/webm"})))
 
 (define-read-only (get-nft-meta)
-  (ok (some {name: "swag", uri: "https://assets.website-files.com/5fcf9ac604d37418aa70a5ab/6040d72dcd78ad8f04db36cf_gradioooo-ps-transcode.webm", mime-type: "video/webm"})))
+  (ok (some {name: "Clarity NFT OG", uri: "https://bafybeiaot5ym7z55hufdqvixp7hyuw54hur4xgkk45ps37wv2ibz2ijdby.ipfs.dweb.link/", mime-type: "video/webm"})))
 
 ;; Register new contract deployment
 (define-public (register-contract)
