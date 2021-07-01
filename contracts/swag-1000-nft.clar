@@ -1,4 +1,4 @@
-(impl-trait 'ST1HTBVD3JG9C05J7HBJTHGR0GGW7KXW28M5JS8QE.nft-trait.nft-trait)
+(impl-trait 'SPPEYAEM28YFZ2SJWTZRFK1B6MAZV09PB0TQPDR.nft-trait.nft-trait)
 (define-non-fungible-token swag-1000 uint)
 
 ;; Limited to first 1000 users
@@ -56,13 +56,13 @@
   (ok (var-get last-id)))
 
 (define-read-only (get-token-uri (token-id uint))
-  (ok (some "https://docs.blockstack.org")))
+  (ok (some "https://docs.stacks.co/")))
 
 (define-read-only (get-meta (token-id uint))
-  (ok (some {name: "Clarity Developer OG", uri: "https://assets.website-files.com/5fcf9ac604d37418aa70a5ab/6040d72dcd78ad8f04db36cf_gradioooo-ps-transcode.webm", mime-type: "video/webm"})))
+  (ok (some {name: "Clarity Developer OG", uri: "https://bafybeif4p2ukltj5eofwriclz4ru3p7izitprrs7a2rjhtp6qat673wagu.ipfs.dweb.link/", mime-type: "video/webm"})))
 
 (define-read-only (get-nft-meta)
-  (ok (some {name: "swag", uri: "https://assets.website-files.com/5fcf9ac604d37418aa70a5ab/6040d72dcd78ad8f04db36cf_gradioooo-ps-transcode.webm", mime-type: "video/webm"})))
+  (ok (some {name: "Clarity Developer OG", uri: "https://bafybeif4p2ukltj5eofwriclz4ru3p7izitprrs7a2rjhtp6qat673wagu.ipfs.dweb.link/", mime-type: "video/webm"})))
 
 ;; Internal - Gets the amount of tokens owned by the specified address.
 (define-private (balance-of (account principal))
